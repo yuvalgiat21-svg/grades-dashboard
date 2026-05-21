@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>דשבורד ציוני מחצית ב׳ | פנימיית מבואות ים</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#f0f4f8;--card:#fff;--primary:#1e3a5f;--accent:#2e7d9f;--accent2:#e8a020;--text:#1a2332;--muted:#6b7fa3;--border:#d0dae8;--row-even:#f7fafd;--green:#27ae60;--red:#e74c3c;--shadow:0 2px 16px rgba(30,58,95,.10)}
+  body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl}
+  header{background:linear-gradient(135deg,var(--primary) 60%,var(--accent));color:#fff;padding:18px 28px 14px;display:flex;align-items:center;gap:16px;box-shadow:0 4px 18px rgba(30,58,95,.18)}
+  header .logo{font-size:2rem}
+  header h1{font-size:1.4rem;font-weight:800}
+  header p{font-size:.85rem;opacity:.75;margin-top:2px}
+  .save-badge{margin-right:auto;background:rgba(255,255,255,.15);border-radius:20px;padding:4px 14px;font-size:.8rem;display:flex;align-items:center;gap:6px}
+  .save-badge.saved{background:rgba(39,174,96,.3)}
+  .tabs-bar{display:flex;gap:6px;padding:16px 20px 0;flex-wrap:wrap}
+  .tab-btn{padding:9px 20px;border:2px solid var(--border);border-bottom:none;background:var(--card);border-radius:10px 10px 0 0;font-family:'Heebo',sans-serif;font-size:.95rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .18s}
+  .tab-btn:hover{background:#e8f0f8;color:var(--primary)}
+  .tab-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);z-index:2}
+  .tab-btn.civic.active{background:var(--accent2);border-color:var(--accent2)}
+  .main-card{background:var(--card);margin:0 20px 20px;border-radius:0 12px 12px 12px;box-shadow:var(--shadow);border:1.5px solid var(--border);overflow:hidden}
+  .toolbar{display:flex;align-items:center;gap:10px;padding:13px 18px;background:#f4f8fd;border-bottom:1.5px solid var(--border);flex-wrap:wrap}
+  .toolbar-title{font-weight:700;font-size:1.05rem;color:var(--primary);flex:1}
+  .btn{display:flex;align-items:center;gap:6px;padding:7px 15px;border-radius:7px;border:none;font-family:'Heebo',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .15s}
+  .btn-add{background:var(--green);color:#fff}.btn-add:hover{background:#219a52}
+  .btn-col{background:var(--accent);color:#fff}.btn-col:hover{background:#1f6888}
+  .btn-export{background:var(--primary);color:#fff}.btn-export:hover{background:#142d4c}
+  .btn-reset{background:#e74c3c;color:#fff;font-size:.8rem;padding:5px 12px}.btn-reset:hover{background:#c0392b}
+  .table-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem}
+  thead tr{background:var(--primary);color:#fff}
+  thead th{padding:10px 8px;font-weight:700;text-align:center;white-space:nowrap;border-left:1px solid rgba(255,255,255,.12)}
+  .weight-input{width:52px;padding:3px 5px;border-radius:5px;border:1.5px solid rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff;font-family:'Heebo',sans-serif;font-size:.82rem;text-align:center;font-weight:700}
+  .weight-input:focus{outline:none;background:rgba(255,255,255,.25);border-color:#fff}
+  .weight-label{font-size:.72rem;opacity:.75;display:block;margin-top:1px}
+  tbody tr:nth-child(even){background:var(--row-even)}
+  tbody tr:hover{background:#e4eef8}
+  tbody td{padding:7px 8px;text-align:center;border-bottom:1px solid var(--border);border-left:1px solid #e8eef6}
+  td:first-child{font-weight:700;color:var(--muted);font-size:.85rem}
+  .name-td{text-align:right;padding-right:14px;font-weight:600;color:var(--text)}
+  .final-td{font-weight:800;font-size:1rem}
+  .grade-good{color:var(--green)}.grade-mid{color:var(--accent2)}.grade-bad{color:var(--red)}
+  input.cell-edit{width:100%;max-width:80px;border:1.5px solid var(--border);border-radius:5px;padding:4px 6px;font-family:'Heebo',sans-serif;font-size:.88rem;text-align:center;background:#f9fbff}
+  input.cell-edit:focus{border-color:var(--accent);outline:none;background:#fff}
+  input.name-edit{width:100%;min-width:150px;border:1.5px solid var(--border);border-radius:5px;padding:4px 8px;font-family:'Heebo',sans-serif;font-size:.9rem;background:#f9fbff;text-align:right}
+  input.name-edit:focus{border-color:var(--accent);outline:none;background:#fff}
+  input.note-edit{width:100%;min-width:190px;border:1.5px solid var(--border);border-radius:5px;padding:4px 8px;font-family:'Heebo',sans-serif;font-size:.85rem;background:#fffdf4;text-align:right;color:#5a4a00}
+  input.note-edit:focus{border-color:var(--accent2);outline:none}
+  .del-row-btn{background:none;border:none;color:#ccc;cursor:pointer;font-size:1.1rem;padding:2px 6px;border-radius:4px}
+  .del-row-btn:hover{color:var(--red);background:#fdecea}
+  .col-actions{display:flex;align-items:center;gap:3px;justify-content:center}
+  .col-del-btn{background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:.95rem;padding:1px 4px;border-radius:3px}
+  .col-del-btn:hover{color:#ff8080}
+  .col-name-input{background:transparent;border:none;color:#fff;font-family:'Heebo',sans-serif;font-size:.88rem;font-weight:700;text-align:center;width:90px}
+  .col-name-input:focus{outline:none;border-bottom:1.5px solid rgba(255,255,255,.6)}
+  .weight-bar{font-size:.82rem;padding:6px 18px;background:#1a2e4a;color:#aac4e0;border-bottom:1px solid rgba(255,255,255,.08);display:none}
+  .stats-strip{display:flex;gap:20px;padding:9px 18px;background:#eef3fa;border-bottom:1.5px solid var(--border);font-size:.83rem;color:var(--muted)}
+  .stats-strip strong{color:var(--primary)}
+  .add-col-dialog{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center}
+  .add-col-dialog.open{display:flex}
+  .dialog-box{background:#fff;border-radius:14px;padding:28px 32px;min-width:300px;box-shadow:0 8px 40px rgba(0,0,0,.18);direction:rtl}
+  .dialog-box h3{font-size:1.15rem;margin-bottom:16px;color:var(--primary)}
+  .dialog-box label{font-size:.9rem;font-weight:600;display:block;margin-bottom:5px}
+  .dialog-box input{width:100%;border:1.5px solid var(--border);border-radius:7px;padding:8px 12px;font-family:'Heebo',sans-serif;font-size:.95rem;margin-bottom:14px;direction:rtl}
+  .dialog-box input:focus{border-color:var(--accent);outline:none}
+  .dialog-actions{display:flex;gap:10px;justify-content:flex-end}
+  .civic-header{background:var(--accent2)!important}
+  .subject-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.78rem;font-weight:700;margin-right:8px}
+  .badge-history{background:#e8f0fb;color:var(--primary)}
+  .badge-civic{background:#fff3d6;color:#a06010}
+  .empty-state{text-align:center;padding:40px;color:var(--muted)}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e3a5f;color:#fff;padding:10px 24px;border-radius:30px;font-size:.9rem;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">📊</div>
+  <div>
+    <h1>דשבורד ציוני מחצית ב׳ — כיתות ט׳</h1>
+    <p>פנימיית מבואות ים | היסטוריה ואזרחות</p>
+  </div>
+  <div class="save-badge" id="saveBadge">💾 שומר אוטומטית</div>
+</header>
+
+<div class="tabs-bar" id="tabsBar"></div>
+
+<div class="main-card">
+  <div class="toolbar">
+    <span class="toolbar-title" id="tabTitle">—</span>
+    <button class="btn btn-add" onclick="addRow()">➕ הוסף תלמיד</button>
+    <button class="btn btn-col" onclick="openAddColDialog()">📝 הוסף עמודה</button>
+    <button class="btn btn-export" onclick="exportCSV()">⬇️ ייצא CSV</button>
+    <button class="btn btn-reset" onclick="resetTab()" title="אפס ציונים בלשונית זו">🗑 אפס ציונים</button>
+  </div>
+  <div id="weightBar" class="weight-bar"></div>
+  <div id="statsStrip" class="stats-strip"></div>
+  <div class="table-wrap">
+    <table><thead id="tableHead"></thead><tbody id="tableBody"></tbody></table>
+  </div>
+</div>
+
+<div class="add-col-dialog" id="addColDialog">
+  <div class="dialog-box">
+    <h3>הוספת עמודה חדשה</h3>
+    <label>שם העמודה</label>
+    <input type="text" id="newColName" placeholder="לדוג׳: ציון הבחנה">
+    <div class="dialog-actions">
+      <button class="btn" style="background:#eee;color:#333" onclick="closeAddColDialog()">ביטול</button>
+      <button class="btn btn-col" onclick="confirmAddCol()">הוסף ✓</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// נתוני תלמידים — כל 4 הכיתות + ט8 אזרחות
+// ══════════════════════════════════════════════════════
+
+const T2_BASE = ['אהרונוב אופיר','אילן נועה','אלוש תום דוד','אפשטין עומרי','ארבל דניאל','ברמן איתי','ברנר יהל','גולדצוייג ליבי','וייס זיו','חסאן אביתר','טאהא אחמד','טוילי שחר','יזהר יערה','ירוזלסקי מיאל','כהן תהל','כוכבי נדב יוסף','דהן מתן','דיל איתי','לב מעין','לב שירה','לביא גוני','ליגומסקי נעם','לי און ירדן מרגריטה','מזרחי יאיר','מרדו נויה','מעוז דביר','נסטל עומרי','עמיאל עמית','פולמן שקד עומר','פרץ אלה','פרקש-פרוקופץ מיכאלה','קתאלי יערה','ראובני מאיה','שגב הילה','שינוהרה כהן נתן','שנער נועה'].sort((a,b)=>a.localeCompare(b,'he'));
+
+const T6_BASE = ['אביב לייה','אדוט מעין שמחה','אהרוני מאיה','אולינר שקד','אורון שקד','אורן איתמר','אזולאי יעל','איליאיץ יונתן','אלירז שחר','אסולין משה','אסולין עדו','אופק עמית','ביטון ירין','בר שמעון איתמר','גרינברג נעמה','דותן שני','האגמאייר יהלי יונתן','וולקון רוני','חיימזון שחר','חכשור רם','יוגב איתן','כרשיש יהלי','קדוש רום','קלר אלישבע אטל','קסוטו אלון','קליינר מאיה','לאובשטיין רוני','מקובסקי חמאמ סתיו','מרציאנו דניאל','פאסי לוטם לב','פרופטה גאיה','ראובני נגה','רז שיילו אמאיה','שץ נבו יוחנן','שלף קמה','סירוטינסקי יהונתן','עשור נגה','אבישר יעל','ג׳אנה נאמן מאור'].sort((a,b)=>a.localeCompare(b,'he'));
+
+const T7_BASE = ['אהרוני גאיה','ארזי איתי דוד','בל אדר','בנידיק איילה','ברקמייר גיא','גדליה רעי','גל נאיה','גיעאן אברהם','גפן מעיין','גפן רומי','גרינברג אביחי','גרינברג עדי','וילהים דניאל','ויגודסקי עומר','חסון אורי','יהלומי איתן','יפה ליאור','יפה רונה','כץ אור אברהם','לוי נינה','מייסטר עלמה','מלר אדווה','נביליצה ליאל','עזר אביגיל','עקביא תמר','פגליארי איתן','פלדהקר מעין','פלג חיים נועם','פסוול שלי','רוזמן עתי','רום זיו','רז יהונתן','רוקח רומי','תמיר ענבר'].sort((a,b)=>a.localeCompare(b,'he'));
+
+const T8_BASE = ['אברהה מיכל','אופיר ניב','אנקוה יהלי','אריאלי יהב','אשכנזי עלמה','בונפיל נועם דוד','בלפרמן אלה שולמית','בלרשטיין עלמה','בן יהודה יה לי','בנדלר רחמים שחר','ברנר אמילי','בר-נתן שחר','גורפיל בלייר יעל','גיל קורן','דנאל עמרי','הר פז קרשובר עמית','ויינר ביטון רומי','יונה כהן עילאי עמרם','כהן אורן','כלפון אורי','לוי עטייה נועה','ליבנה מאיה','ליפשיץ עידן לי','ניסן אלמוג','סאסי משה נתן','ענבר ליבי','פולינר יאיר','פנחס אדם נבו','קדר ים','קולן ירדן','קורן עומר','רוטרי יהב','רטפן אריאל יעקב','שלכט נועה','שמחי בן יהודה','שקולניק תמר'];
+
+const TABS = [
+  {id:'t2h', label:'היסטוריה ט׳2', subject:'history', base:T2_BASE},
+  {id:'t6h', label:'היסטוריה ט׳6', subject:'history', base:T6_BASE},
+  {id:'t7h', label:'היסטוריה ט׳7', subject:'history', base:T7_BASE},
+  {id:'t8h', label:'היסטוריה ט׳8', subject:'history', base:T8_BASE},
+  {id:'t8c', label:'אזרחות ט׳8',   subject:'civic',   base:T8_BASE},
+];
+
+const DEF_COLS = [{label:'ציון מטלה'},{label:'ציון פרזנטציה'},{label:'תלמידאות'}];
+const STORAGE_KEY = 'mabOtYam_grades_v1';
+
+// ══════════ STATE — LOAD / SAVE ══════════
+let state = {};
+
+function defaultState(tab) {
+  return {
+    rows: tab.base.map((n,i) => ({id:i, name:n, grades:{}, note:''})),
+    gradeCols: DEF_COLS.map((c,i) => ({key:'c'+i+'_'+tab.id, label:c.label, weight:''})),
+  };
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      TABS.forEach(tab => {
+        state[tab.id] = parsed[tab.id] || defaultState(tab);
+      });
+      return;
+    }
+  } catch(e){}
+  TABS.forEach(tab => { state[tab.id] = defaultState(tab); });
+}
+
+let saveTimer = null;
+function saveState() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      const badge = document.getElementById('saveBadge');
+      badge.className = 'save-badge saved';
+      badge.textContent = '✅ נשמר';
+      setTimeout(() => { badge.className='save-badge'; badge.textContent='💾 שומר אוטומטית'; }, 2000);
+    } catch(e) { showToast('שגיאה בשמירה','err'); }
+  }, 600);
+}
+
+function resetTab() {
+  const tab = TABS.find(t => t.id === currentTab);
+  if (!confirm(`לאפס את כל הציונים ב-${tab.label}? (השמות יישמרו)`)) return;
+  state[currentTab].rows.forEach(r => { r.grades = {}; r.note = ''; });
+  saveState(); renderAll();
+  showToast('הציונים אופסו');
+}
+
+let currentTab = TABS[0].id;
+
+// ══════════ HELPERS ══════════
+function gc(v){const n=parseFloat(v);if(isNaN(n)||v==='')return '';return n>=80?'grade-good':n>=60?'grade-mid':'grade-bad';}
+
+function calcFinal(row) {
+  const s = state[currentTab]; let tot=0, uw=0;
+  s.gradeCols.forEach(c => { const w=parseFloat(c.weight)||0,g=parseFloat(row.grades[c.key]); if(w>0&&!isNaN(g)){tot+=g*(w/100);uw+=w;} });
+  return uw===0 ? null : Math.round((tot/uw)*100);
+}
+
+function totalW() { return state[currentTab].gradeCols.reduce((s,c)=>s+(parseFloat(c.weight)||0),0); }
+
+function showToast(msg) {
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+// ══════════ RENDER ══════════
+function renderTabs() {
+  document.getElementById('tabsBar').innerHTML = TABS.map(t =>
+    `<button class="tab-btn${t.subject==='civic'?' civic':''}${t.id===currentTab?' active':''}"
+      onclick="currentTab='${t.id}';renderAll()">${t.label}</button>`
+  ).join('');
+}
+
+function renderAll() {
+  renderTabs();
+  const tab=TABS.find(t=>t.id===currentTab), s=state[currentTab], isCivic=tab.subject==='civic';
+
+  document.getElementById('tabTitle').innerHTML =
+    `<span class="subject-badge ${isCivic?'badge-civic':'badge-history'}">${isCivic?'אזרחות':'היסטוריה'}</span>${tab.label}`;
+
+  // weight bar
+  const wb=document.getElementById('weightBar'), tw=totalW();
+  if(s.gradeCols.some(c=>c.weight!=='')){
+    wb.style.display='';
+    const ok=Math.abs(tw-100)<.5;
+    wb.innerHTML=`סה"כ משקלות: <strong style="color:${ok?'#4ade80':'#f87171'}">${tw}%</strong> ${ok?'✅':'⚠️ צריך להגיע ל-100%'}`;
+  } else wb.style.display='none';
+
+  // stats
+  const total=s.rows.length;
+  const graded=s.rows.filter(r=>s.gradeCols.some(c=>r.grades[c.key]!==undefined&&r.grades[c.key]!=='')).length;
+  document.getElementById('statsStrip').innerHTML =
+    `<span>סה"כ תלמידים: <strong>${total}</strong></span>
+     <span>עם ציון: <strong style="color:var(--green)">${graded}</strong></span>
+     <span>ללא ציון: <strong style="color:var(--red)">${total-graded}</strong></span>`;
+
+  renderHead(isCivic, s);
+  renderBody(s);
+}
+
+function renderHead(isCivic, s) {
+  document.getElementById('tableHead').innerHTML = `<tr class="${isCivic?'civic-header':''}">
+    <th style="width:44px">מס"ד</th>
+    <th style="min-width:160px">שם התלמיד</th>
+    ${s.gradeCols.map((col,i)=>`<th style="min-width:110px">
+      <div class="col-actions">
+        <input class="col-name-input" value="${col.label}" onchange="renameCol(${i},this.value)">
+        <button class="col-del-btn" onclick="deleteCol(${i})">✕</button>
+      </div>
+      <input class="weight-input" type="number" min="0" max="100" value="${col.weight}" placeholder="%" onchange="setWeight(${i},this.value)">
+      <span class="weight-label">משקל %</span>
+    </th>`).join('')}
+    <th style="min-width:80px">ציון סופי</th>
+    <th style="min-width:200px">מלל לתעודה</th>
+    <th style="width:38px"></th>
+  </tr>`;
+}
+
+function renderBody(s) {
+  const tb=document.getElementById('tableBody');
+  if(!s.rows.length){tb.innerHTML=`<tr><td colspan="99" class="empty-state">אין תלמידים. לחץ "הוסף תלמיד".</td></tr>`;return;}
+  tb.innerHTML = s.rows.map((row,ri)=>{
+    const fin=calcFinal(row);
+    return `<tr>
+      <td>${ri+1}</td>
+      <td class="name-td"><input class="name-edit" value="${row.name||''}" onchange="setName(${ri},this.value)" placeholder="שם התלמיד"></td>
+      ${s.gradeCols.map(col=>{const v=row.grades[col.key]||'';return `<td class="${gc(v)}"><input class="cell-edit" type="number" min="0" max="100" value="${v}" onchange="setGrade(${ri},'${col.key}',this.value)" placeholder="—"></td>`;}).join('')}
+      <td class="final-td ${gc(fin)}">${fin!==null?fin:'—'}</td>
+      <td><input class="note-edit" value="${(row.note||'').replace(/"/g,'&quot;')}" onchange="setNote(${ri},this.value)" placeholder="הערה לתעודה..."></td>
+      <td><button class="del-row-btn" onclick="deleteRow(${ri})" title="מחק שורה">✕</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════ ACTIONS ══════════
+function addRow(){state[currentTab].rows.push({id:Date.now(),name:'',grades:{},note:''});saveState();renderAll();setTimeout(()=>{const i=document.querySelectorAll('.name-edit');if(i.length)i[i.length-1].focus();},50);}
+function deleteRow(ri){if(!confirm('למחוק תלמיד זה?'))return;state[currentTab].rows.splice(ri,1);saveState();renderAll();}
+function setName(ri,v){state[currentTab].rows[ri].name=v;saveState();renderBody(state[currentTab]);}
+function setGrade(ri,key,v){state[currentTab].rows[ri].grades[key]=v;saveState();renderBody(state[currentTab]);}
+function setNote(ri,v){state[currentTab].rows[ri].note=v;saveState();}
+function setWeight(ci,v){state[currentTab].gradeCols[ci].weight=v;saveState();renderAll();}
+function renameCol(ci,v){state[currentTab].gradeCols[ci].label=v;saveState();}
+function deleteCol(ci){if(!confirm('למחוק עמודה זו?'))return;state[currentTab].gradeCols.splice(ci,1);saveState();renderAll();}
+
+const dlg=document.getElementById('addColDialog');
+function openAddColDialog(){dlg.classList.add('open');document.getElementById('newColName').value='';setTimeout(()=>document.getElementById('newColName').focus(),50);}
+function closeAddColDialog(){dlg.classList.remove('open');}
+function confirmAddCol(){
+  const name=document.getElementById('newColName').value.trim();
+  if(!name){alert('נא לרשום שם לעמודה');return;}
+  state[currentTab].gradeCols.push({key:'col_'+Date.now(),label:name,weight:''});
+  saveState();closeAddColDialog();renderAll();
+}
+dlg.addEventListener('click',e=>{if(e.target===dlg)closeAddColDialog();});
+
+function exportCSV(){
+  const s=state[currentTab],tab=TABS.find(t=>t.id===currentTab);
+  let csv='מס"ד,שם התלמיד,'+s.gradeCols.map(c=>c.label).join(',')+',ציון סופי,מלל לתעודה\n';
+  s.rows.forEach((row,i)=>{
+    const fin=calcFinal(row);
+    csv+=`${i+1},"${row.name||''}",`+s.gradeCols.map(c=>row.grades[c.key]||'').join(',')+`,"${fin!==null?fin:''}","${(row.note||'').replace(/"/g,'""')}"\n`;
+  });
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}));
+  a.download=`ציונים_${tab.label}_מחצית_ב.csv`;a.click();
+  showToast('הקובץ הורד ✓');
+}
+
+// ══════════ INIT ══════════
+loadState();
+renderAll();
+</script>
+</body>
+</html>
